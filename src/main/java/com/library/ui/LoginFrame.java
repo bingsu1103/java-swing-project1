@@ -90,8 +90,32 @@ public class LoginFrame extends JFrame {
         btnLogin.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         btnLogin.addActionListener(e -> handleLogin());
         gbc.gridy = 6;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        gbc.insets = new Insets(10, 0, 15, 0);
         mainPanel.add(btnLogin, gbc);
+
+        // Register Link
+        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footerPanel.setBackground(new Color(30, 39, 46));
+        
+        JLabel lblNoAccount = new JLabel("Chưa có tài khoản?");
+        lblNoAccount.setForeground(new Color(189, 195, 199));
+        
+        JButton btnRegister = new JButton("Đăng ký ngay");
+        btnRegister.setBorderPainted(false);
+        btnRegister.setContentAreaFilled(false);
+        btnRegister.setForeground(new Color(11, 232, 129));
+        btnRegister.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnRegister.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnRegister.addActionListener(e -> {
+            new RegisterFrame().setVisible(true);
+            this.dispose();
+        });
+
+        footerPanel.add(lblNoAccount);
+        footerPanel.add(btnRegister);
+        gbc.gridy = 7;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        mainPanel.add(footerPanel, gbc);
 
         add(mainPanel);
     }
