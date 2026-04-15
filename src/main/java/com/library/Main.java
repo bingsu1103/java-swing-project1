@@ -13,8 +13,7 @@ public class Main {
         }
 
         SwingUtilities.invokeLater(() -> {
-            System.out.println("Hệ thống quản lí thư viện");
-            System.out.println("App đã chạy thành công");
+            new com.library.ui.LoginFrame().setVisible(true);
         });
     }
 }
