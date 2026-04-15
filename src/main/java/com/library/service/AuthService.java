@@ -21,6 +21,19 @@ public class AuthService {
         return false;
     }
 
+    public boolean register(String username, String password, String fullName) {
+        if (librarianDAO.findByUsername(username) != null) {
+            return false;
+        }
+
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        String id = librarianDAO.generateId();
+        Librarian librarian = new Librarian(id, username, hashedPassword, fullName);
+        librarianDAO.add(librarian);
+        return true;
+    }
+
+
     public static Librarian getCurrentLibrarian() {
         return currentLibrarian;
     }
