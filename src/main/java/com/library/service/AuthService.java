@@ -33,6 +33,9 @@ public class AuthService {
         return true;
     }
 
+    public void logout() {
+        currentLibrarian = null;
+    }
 
     public static Librarian getCurrentLibrarian() {
         return currentLibrarian;
