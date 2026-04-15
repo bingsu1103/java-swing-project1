@@ -25,7 +25,7 @@ public class LoginFrame extends JFrame {
         setResizable(false);
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyPadding(30, 30, 30, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 0, 10, 0);
