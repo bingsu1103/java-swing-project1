@@ -30,6 +30,7 @@ public class LoginFrame extends JFrame {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         gbc.gridx = 0;
 
         JLabel titleLabel = new JLabel("THƯ VIỆN", SwingConstants.CENTER);
