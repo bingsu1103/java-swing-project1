@@ -3,6 +3,7 @@ package com.library.service;
 import com.library.dao.BookDAO;
 import com.library.model.Book;
 import com.library.util.Validator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookService {
@@ -36,9 +37,17 @@ public class BookService {
         return null;
     }
 
-    // Tính năng: Xóa thông tin sách
     public void deleteBook(String isbn) {
         bookDAO.delete(isbn);
+    }
+
+    // Sửa lỗi: Gọi searchByIsbn để trả về danh sách List<Book>
+    public List<Book> searchByIsbn(String isbn) {
+        return bookDAO.searchByIsbn(isbn);
+    }
+
+    public List<Book> searchByName(String name) {
+        return bookDAO.searchByName(name);
     }
 
     private String validateBook(Book book) {
