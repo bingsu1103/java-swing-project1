@@ -25,13 +25,17 @@ public class ReaderService {
         return null;
     }
 
-    // Tính năng: Chỉnh sửa thông tin độc giả
     public String updateReader(Reader reader) {
         String error = validateReader(reader);
         if (error != null) return error;
 
         readerDAO.update(reader);
         return null;
+    }
+
+    // Tính năng: Xóa thông tin một độc giả
+    public void deleteReader(String maDocGia) {
+        readerDAO.delete(maDocGia);
     }
 
     private String validateReader(Reader reader) {
