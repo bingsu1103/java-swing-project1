@@ -133,8 +133,8 @@ public class LoginFrame extends JFrame {
 
         if (authService.login(username, password)) {
             JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            // new MainFrame().setVisible(true);
-            // this.dispose();
+            new MainFrame().setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác!", "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
