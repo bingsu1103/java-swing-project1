@@ -68,7 +68,7 @@ public class ReaderPanel extends JPanel {
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // Action section (Nút bấm)
+        // Action section
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         actionPanel.setBackground(Color.WHITE);
         actionPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -121,7 +121,9 @@ public class ReaderPanel extends JPanel {
     }
 
     private void handleAdd() {
-        ReaderForm form = new ReaderForm(null);
+        // Tự động lấy mã mới khi nhấn Thêm
+        String nextId = readerService.getNextReaderId();
+        ReaderForm form = new ReaderForm(null, nextId);
         FormDialog dialog = new FormDialog((Frame) SwingUtilities.getWindowAncestor(this), "Thêm Độc giả", form);
         dialog.setVisible(true);
 
@@ -142,7 +144,7 @@ public class ReaderPanel extends JPanel {
         Reader reader = readerService.getAllReaders().stream().filter(r -> r.getMaDocGia().equals(id)).findFirst().orElse(null);
         
         if (reader != null) {
-            ReaderForm form = new ReaderForm(reader);
+            ReaderForm form = new ReaderForm(reader, id);
             FormDialog dialog = new FormDialog((Frame) SwingUtilities.getWindowAncestor(this), "Sửa Độc giả", form);
             dialog.setVisible(true);
             if (dialog.isConfirmed()) {
@@ -168,13 +170,16 @@ public class ReaderPanel extends JPanel {
         private final JComboBox<String> cbGioiTinh;
         private Reader currentReader;
 
-        public ReaderForm(Reader reader) {
+        public ReaderForm(Reader reader, String id) {
             this.currentReader = reader;
             setLayout(new GridLayout(0, 2, 10, 10));
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             add(new JLabel("Mã ĐG (Tự động):"));
-            txtMa = new JTextField(); txtMa.setEditable(false); add(txtMa);
+            txtMa = new JTextField(id); 
+            txtMa.setEditable(false); // Khóa ô nhập mã
+            txtMa.setBackground(new Color(236, 240, 241)); // Thêm màu nền để phân biệt ô bị khóa
+            add(txtMa);
 
             add(new JLabel("Họ tên:")); txtHoTen = new JTextField(); add(txtHoTen);
             add(new JLabel("CMND:")); txtCmnd = new JTextField(); add(txtCmnd);
@@ -184,7 +189,6 @@ public class ReaderPanel extends JPanel {
             add(new JLabel("Địa chỉ:")); txtDiaChi = new JTextField(); add(txtDiaChi);
 
             if (reader != null) {
-                txtMa.setText(reader.getMaDocGia());
                 txtHoTen.setText(reader.getHoTen());
                 txtCmnd.setText(reader.getCmnd());
                 txtNgaySinh.setText(DateUtil.formatDate(reader.getNgaySinh()));
@@ -196,6 +200,7 @@ public class ReaderPanel extends JPanel {
 
         public Reader getReader() {
             Reader r = currentReader != null ? currentReader : new Reader();
+            r.setMaDocGia(txtMa.getText()); // Mã lấy từ ô khóa
             r.setHoTen(txtHoTen.getText());
             r.setCmnd(txtCmnd.getText());
             r.setNgaySinh(DateUtil.parseDate(txtNgaySinh.getText()));
