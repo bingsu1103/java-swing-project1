@@ -16,18 +16,29 @@ public class BookService {
         return bookDAO.readAll();
     }
 
-    // Tính năng: Thêm sách mới
     public String addBook(Book book) {
         String error = validateBook(book);
         if (error != null) return error;
 
-        // Kiểm tra xem ISBN đã tồn tại chưa
         if (bookDAO.readAll().stream().anyMatch(b -> b.getIsbn().equals(book.getIsbn()))) {
             return "Mã ISBN này đã tồn tại trong hệ thống";
         }
 
         bookDAO.add(book);
         return null;
+    }
+
+    public String updateBook(Book book) {
+        String error = validateBook(book);
+        if (error != null) return error;
+
+        bookDAO.update(book);
+        return null;
+    }
+
+    // Tính năng: Xóa thông tin sách
+    public void deleteBook(String isbn) {
+        bookDAO.delete(isbn);
     }
 
     private String validateBook(Book book) {
