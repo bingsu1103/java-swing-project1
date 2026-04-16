@@ -33,9 +33,18 @@ public class ReaderService {
         return null;
     }
 
-    // Tính năng: Xóa thông tin một độc giả
     public void deleteReader(String maDocGia) {
         readerDAO.delete(maDocGia);
+    }
+
+    // Tính năng: Tìm kiếm độc giả theo CMND/CCCD
+    public List<Reader> searchByCmnd(String cmnd) {
+        return readerDAO.findByCmnd(cmnd);
+    }
+
+    // Tính năng: Tìm kiếm độc giả theo họ tên
+    public List<Reader> searchByName(String name) {
+        return readerDAO.findByName(name);
     }
 
     private String validateReader(Reader reader) {
