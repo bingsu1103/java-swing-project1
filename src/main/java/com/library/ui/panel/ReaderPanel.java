@@ -19,6 +19,11 @@ public class ReaderPanel extends JPanel {
     private JTextField txtSearch;
     private JComboBox<String> cbSearchType;
 
+    // Định nghĩa bảng màu Dark Theme
+    private final Color BACKGROUND_COLOR = new Color(30, 39, 46);
+    private final Color SECONDARY_COLOR = new Color(47, 53, 66);
+    private final Color TEXT_COLOR = Color.WHITE;
+
     public ReaderPanel() {
         this.readerService = new ReaderService();
         initUI();
@@ -27,22 +32,27 @@ public class ReaderPanel extends JPanel {
 
     private void initUI() {
         setLayout(new BorderLayout());
-        setBackground(Color.WHITE);
+        setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Header section (Title + Search)
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBackground(BACKGROUND_COLOR);
 
         JLabel titleLabel = new JLabel("QUẢN LÝ ĐỘC GIẢ");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setForeground(TEXT_COLOR);
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        searchPanel.setBackground(Color.WHITE);
+        searchPanel.setBackground(BACKGROUND_COLOR);
 
         cbSearchType = new JComboBox<>(new String[]{"Họ tên", "CMND/CCCD"});
         txtSearch = new JTextField(20);
+        txtSearch.setBackground(SECONDARY_COLOR);
+        txtSearch.setForeground(TEXT_COLOR);
+        txtSearch.setCaretColor(TEXT_COLOR);
+
         StyledButton btnSearch = new StyledButton("Tìm kiếm", new Color(45, 52, 54), Color.WHITE);
         btnSearch.addActionListener(e -> handleSearch());
 
@@ -65,12 +75,21 @@ public class ReaderPanel extends JPanel {
 
         table = new JTable(tableModel);
         table.setRowHeight(30);
+        table.setBackground(SECONDARY_COLOR);
+        table.setForeground(TEXT_COLOR);
+        table.setGridColor(new Color(30, 39, 46));
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        add(new JScrollPane(table), BorderLayout.CENTER);
+        table.getTableHeader().setBackground(new Color(45, 52, 54));
+        table.getTableHeader().setForeground(TEXT_COLOR);
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(BACKGROUND_COLOR);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        add(scrollPane, BorderLayout.CENTER);
 
         // Action section
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        actionPanel.setBackground(Color.WHITE);
+        actionPanel.setBackground(BACKGROUND_COLOR);
         actionPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         StyledButton btnAdd = new StyledButton("Thêm mới", new Color(11, 232, 129), Color.DARK_GRAY);
@@ -121,7 +140,6 @@ public class ReaderPanel extends JPanel {
     }
 
     private void handleAdd() {
-        // Tự động lấy mã mới khi nhấn Thêm
         String nextId = readerService.getNextReaderId();
         ReaderForm form = new ReaderForm(null, nextId);
         FormDialog dialog = new FormDialog((Frame) SwingUtilities.getWindowAncestor(this), "Thêm Độc giả", form);
@@ -177,8 +195,9 @@ public class ReaderPanel extends JPanel {
 
             add(new JLabel("Mã ĐG (Tự động):"));
             txtMa = new JTextField(id); 
-            txtMa.setEditable(false); // Khóa ô nhập mã
-            txtMa.setBackground(new Color(236, 240, 241)); // Thêm màu nền để phân biệt ô bị khóa
+            txtMa.setEditable(false);
+            txtMa.setBackground(new Color(47, 53, 66));
+            txtMa.setForeground(Color.WHITE);
             add(txtMa);
 
             add(new JLabel("Họ tên:")); txtHoTen = new JTextField(); add(txtHoTen);
@@ -200,7 +219,7 @@ public class ReaderPanel extends JPanel {
 
         public Reader getReader() {
             Reader r = currentReader != null ? currentReader : new Reader();
-            r.setMaDocGia(txtMa.getText()); // Mã lấy từ ô khóa
+            r.setMaDocGia(txtMa.getText());
             r.setHoTen(txtHoTen.getText());
             r.setCmnd(txtCmnd.getText());
             r.setNgaySinh(DateUtil.parseDate(txtNgaySinh.getText()));
