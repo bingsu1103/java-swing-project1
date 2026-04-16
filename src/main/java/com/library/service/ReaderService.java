@@ -16,14 +16,22 @@ public class ReaderService {
         return readerDAO.readAll();
     }
 
-    // Tính năng: Thêm độc giả
     public String addReader(Reader reader) {
         String error = validateReader(reader);
         if (error != null) return error;
 
         reader.setMaDocGia(readerDAO.generateId());
         readerDAO.add(reader);
-        return null; // Thành công
+        return null;
+    }
+
+    // Tính năng: Chỉnh sửa thông tin độc giả
+    public String updateReader(Reader reader) {
+        String error = validateReader(reader);
+        if (error != null) return error;
+
+        readerDAO.update(reader);
+        return null;
     }
 
     private String validateReader(Reader reader) {
