@@ -16,11 +16,18 @@ public class ReaderService {
         return readerDAO.readAll();
     }
 
+    public String getNextReaderId() {
+        return readerDAO.generateId();
+    }
+
     public String addReader(Reader reader) {
         String error = validateReader(reader);
         if (error != null) return error;
 
-        reader.setMaDocGia(readerDAO.generateId());
+        // Nếu mã chưa có thì mới gen (phòng trường hợp đã gen ở FE)
+        if (reader.getMaDocGia() == null || reader.getMaDocGia().isEmpty()) {
+            reader.setMaDocGia(readerDAO.generateId());
+        }
         readerDAO.add(reader);
         return null;
     }
@@ -37,12 +44,10 @@ public class ReaderService {
         readerDAO.delete(maDocGia);
     }
 
-    // Tính năng: Tìm kiếm độc giả theo CMND/CCCD
     public List<Reader> searchByCmnd(String cmnd) {
         return readerDAO.findByCmnd(cmnd);
     }
 
-    // Tính năng: Tìm kiếm độc giả theo họ tên
     public List<Reader> searchByName(String name) {
         return readerDAO.findByName(name);
     }
