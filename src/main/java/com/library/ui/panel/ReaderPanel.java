@@ -3,6 +3,7 @@ package com.library.ui.panel;
 import com.library.model.Reader;
 import com.library.service.ReaderService;
 import com.library.util.DateUtil;
+import com.library.ui.component.StyledButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +14,8 @@ public class ReaderPanel extends JPanel {
     private final ReaderService readerService;
     private JTable table;
     private DefaultTableModel tableModel;
+    private JTextField txtSearch;
+    private JComboBox<String> cbSearchType;
 
     public ReaderPanel() {
         this.readerService = new ReaderService();
@@ -25,10 +28,29 @@ public class ReaderPanel extends JPanel {
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Tiêu đề
+        // Header section (Title + Search)
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.WHITE);
+
         JLabel titleLabel = new JLabel("QUẢN LÝ ĐỘC GIẢ");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        add(titleLabel, BorderLayout.NORTH);
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+
+        // Thanh tìm kiếm
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        searchPanel.setBackground(Color.WHITE);
+
+        cbSearchType = new JComboBox<>(new String[]{"Họ tên", "CMND/CCCD"});
+        txtSearch = new JTextField(20);
+        StyledButton btnSearch = new StyledButton("Tìm kiếm", new Color(45, 52, 54), Color.WHITE);
+        btnSearch.addActionListener(e -> handleSearch());
+
+        searchPanel.add(cbSearchType);
+        searchPanel.add(txtSearch);
+        searchPanel.add(btnSearch);
+        headerPanel.add(searchPanel, BorderLayout.EAST);
+
+        add(headerPanel, BorderLayout.NORTH);
 
         // Bảng dữ liệu
         tableModel = new DefaultTableModel(new Object[]{
@@ -46,8 +68,20 @@ public class ReaderPanel extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    public void refreshTable() {
-        List<Reader> list = readerService.getAllReaders();
+    private void handleSearch() {
+        String query = txtSearch.getText().trim();
+        List<Reader> result;
+        if (query.isEmpty()) {
+            result = readerService.getAllReaders();
+        } else if (cbSearchType.getSelectedIndex() == 0) {
+            result = readerService.searchByName(query);
+        } else {
+            result = readerService.searchByCmnd(query);
+        }
+        updateTableData(result);
+    }
+
+    private void updateTableData(List<Reader> list) {
         tableModel.setRowCount(0);
         for (Reader r : list) {
             tableModel.addRow(new Object[]{
@@ -57,5 +91,9 @@ public class ReaderPanel extends JPanel {
                     DateUtil.formatDate(r.getNgayHetHan())
             });
         }
+    }
+
+    public void refreshTable() {
+        updateTableData(readerService.getAllReaders());
     }
 }
