@@ -2,6 +2,7 @@ package com.library.ui;
 
 import com.library.ui.component.Sidebar;
 import com.library.ui.panel.DashboardPanel;
+import com.library.ui.panel.ReaderPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +33,7 @@ public class MainFrame extends JFrame {
         contentArea.setBackground(Color.WHITE);
 
         contentArea.add(new DashboardPanel(), "DASHBOARD");
+        contentArea.add(new ReaderPanel(), "READER");
 
         add(contentArea, BorderLayout.CENTER);
     }
