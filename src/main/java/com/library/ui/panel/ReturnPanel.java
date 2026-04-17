@@ -83,20 +83,48 @@ public class ReturnPanel extends JPanel {
         StyledButton btnLost = new StyledButton("BÁO MẤT SÁCH", new Color(255, 71, 87), Color.WHITE);
         StyledButton btnRefresh = new StyledButton("Làm mới");
 
-        btnReturn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Tính năng xử lý trả sách sẽ hoàn thiện ở Commit sau!");
-        });
-        
-        btnLost.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Tính năng xử lý báo mất sách sẽ hoàn thiện ở Commit sau!");
-        });
-        
+        btnReturn.addActionListener(e -> handleReturn());
+        btnLost.addActionListener(e -> handleLost());
         btnRefresh.addActionListener(e -> refreshTable());
 
         actionPanel.add(btnReturn);
         actionPanel.add(btnLost);
         actionPanel.add(btnRefresh);
         add(actionPanel, BorderLayout.SOUTH);
+    }
+
+    private void handleReturn() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu mượn để trả!");
+            return;
+        }
+
+        String maPhieu = (String) table.getValueAt(row, 0);
+        int choice = JOptionPane.showConfirmDialog(this, "Xác nhận trả sách cho phiếu " + maPhieu + "?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            String result = borrowSlipService.returnBooks(maPhieu);
+            JOptionPane.showMessageDialog(this, result, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            refreshTable();
+        }
+    }
+
+    private void handleLost() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu mượn để báo mất!");
+            return;
+        }
+
+        String maPhieu = (String) table.getValueAt(row, 0);
+        int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn báo mất sách cho phiếu " + maPhieu + "?\nĐộc giả sẽ bị phạt 200% giá trị sách.", "Cảnh báo", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            String result = borrowSlipService.reportLost(maPhieu);
+            JOptionPane.showMessageDialog(this, result, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            refreshTable();
+        }
     }
 
     private void handleSearch() {
