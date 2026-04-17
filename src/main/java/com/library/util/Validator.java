@@ -6,7 +6,7 @@ public class Validator {
 
     private static final Pattern CMND_PATTERN = Pattern.compile("^(\\d{9}|\\d{12})$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-    private static final Pattern ISBN_PATTERN = Pattern.compile("^[\\d-]{10,17}$");
+    private static final Pattern ISBN_PATTERN = Pattern.compile("^[A-Za-z0-9-]{3,17}$");
 
     public static boolean isValidCMND(String cmnd) {
         if (cmnd == null)

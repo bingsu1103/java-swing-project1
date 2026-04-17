@@ -42,7 +42,7 @@ public class BookService {
     }
 
     public String generateNextIsbn() {
-        return "978" + (System.currentTimeMillis() % 1000000000L);
+        return "B" + (System.currentTimeMillis() % 100000L);
     }
 
     // Sửa lỗi: Gọi searchByIsbn để trả về danh sách List<Book>
