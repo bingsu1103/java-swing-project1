@@ -78,6 +78,67 @@ public class BorrowSlipService {
         return null; // Thành công
     }
 
+    public String returnBooks(String maPhieu) {
+        BorrowSlip slip = borrowSlipDAO.readAll().stream()
+                .filter(s -> s.getMaPhieu().equals(maPhieu))
+                .findFirst()
+                .orElse(null);
+
+        if (slip == null) return "Không tìm thấy mã phiếu mượn!";
+        if (slip.getTrangThai() != BorrowSlip.TrangThai.DANG_MUON) return "Phiếu này đã được xử lý rồi!";
+
+        // 1. Cập nhật thông tin trả
+        slip.setNgayTraThucTe(LocalDate.now());
+        slip.setTrangThai(BorrowSlip.TrangThai.DA_TRA);
+        
+        double tienPhat = slip.tinhTienPhatQuaHan();
+        borrowSlipDAO.update(slip);
+
+        // 2. Hoàn trả sách vào kho
+        List<Book> allBooks = bookDAO.readAll();
+        for (String isbn : slip.getDanhSachISBN()) {
+            allBooks.stream()
+                    .filter(b -> b.getIsbn().equals(isbn))
+                    .findFirst()
+                    .ifPresent(book -> {
+                        book.setSoLuong(book.getSoLuong() + 1);
+                        bookDAO.update(book);
+                    });
+        }
+
+        if (tienPhat > 0) {
+            return "Trả sách thành công! Độc giả bị phạt " + String.format("%,.0f", tienPhat) + " VNĐ do quá hạn.";
+        }
+        return "Trả sách thành công!";
+    }
+
+    public String reportLost(String maPhieu) {
+        BorrowSlip slip = borrowSlipDAO.readAll().stream()
+                .filter(s -> s.getMaPhieu().equals(maPhieu))
+                .findFirst()
+                .orElse(null);
+
+        if (slip == null) return "Không tìm thấy mã phiếu mượn!";
+        if (slip.getTrangThai() != BorrowSlip.TrangThai.DANG_MUON) return "Phiếu này đã được xử lý rồi!";
+
+        // 1. Tính tiền phạt mất sách (200% giá sách)
+        double tongTienPhat = 0;
+        List<Book> allBooks = bookDAO.readAll();
+        for (String isbn : slip.getDanhSachISBN()) {
+            Book book = allBooks.stream().filter(b -> b.getIsbn().equals(isbn)).findFirst().orElse(null);
+            if (book != null) {
+                tongTienPhat += book.getGiaSach() * Constants.TY_LE_PHAT_MAT_SACH;
+            }
+        }
+
+        // 2. Cập nhật trạng thái
+        slip.setTrangThai(BorrowSlip.TrangThai.MAT_SACH);
+        slip.setNgayTraThucTe(LocalDate.now());
+        borrowSlipDAO.update(slip);
+
+        return "Báo mất thành công! Độc giả phải bồi thường " + String.format("%,.0f", tongTienPhat) + " VNĐ (200% giá trị sách).";
+    }
+
     public String getNextSlipId() {
         return Constants.PREFIX_BORROW_SLIP + String.format("%04d", borrowSlipDAO.readAll().size() + 1);
     }
