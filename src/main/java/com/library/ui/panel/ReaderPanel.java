@@ -126,6 +126,19 @@ public class ReaderPanel extends JPanel {
         updateTableData(readerService.getAllReaders());
     }
 
+    private void handleSearch() {
+        String query = txtSearch.getText().trim();
+        List<Reader> result;
+        if (query.isEmpty()) {
+            result = readerService.getAllReaders();
+        } else if (cbSearchType.getSelectedIndex() == 0) {
+            result = readerService.searchByName(query);
+        } else {
+            result = readerService.searchByCmnd(query);
+        }
+        updateTableData(result);
+    }
+
     private void handleAdd() {
         String nextId = readerService.getNextReaderId();
         ReaderForm form = new ReaderForm(null, nextId);
