@@ -4,6 +4,7 @@ import com.library.ui.component.Sidebar;
 import com.library.ui.panel.BookPanel;
 import com.library.ui.panel.BorrowPanel;
 import com.library.ui.panel.ReturnPanel;
+import com.library.ui.panel.StatPanel;
 import com.library.ui.panel.DashboardPanel;
 import com.library.ui.panel.ReaderPanel;
 
@@ -38,7 +39,7 @@ public class MainFrame extends JFrame {
         contentArea.add(new BookPanel(), "BOOK");
         contentArea.add(new BorrowPanel(), "BORROW");
         contentArea.add(new ReturnPanel(), "RETURN");
-        contentArea.add(createPlaceholderPanel("Thống kê"), "STAT");
+        contentArea.add(new StatPanel(), "STAT");
 
         add(contentArea, BorderLayout.CENTER);
     }
