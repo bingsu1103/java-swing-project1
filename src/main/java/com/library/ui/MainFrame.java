@@ -27,15 +27,29 @@ public class MainFrame extends JFrame {
         Sidebar sidebar = new Sidebar(this::handleMenuSelection);
         add(sidebar, BorderLayout.WEST);
 
-        // Content Area
+        // Content Area (Dark Theme)
         cardLayout = new CardLayout();
         contentArea = new JPanel(cardLayout);
-        contentArea.setBackground(Color.WHITE);
+        contentArea.setBackground(new Color(30, 39, 46)); // Màu tối
 
         contentArea.add(new DashboardPanel(), "DASHBOARD");
         contentArea.add(new ReaderPanel(), "READER");
+        contentArea.add(new BookPanel(), "BOOK");
+        contentArea.add(createPlaceholderPanel("Mượn sách"), "BORROW");
+        contentArea.add(createPlaceholderPanel("Trả sách"), "RETURN");
+        contentArea.add(createPlaceholderPanel("Thống kê"), "STAT");
 
         add(contentArea, BorderLayout.CENTER);
+    }
+
+    private JPanel createPlaceholderPanel(String title) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(30, 39, 46));
+        JLabel label = new JLabel(title + " (Sắp ra mắt)", SwingConstants.CENTER);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        label.setForeground(Color.WHITE);
+        panel.add(label, BorderLayout.CENTER);
+        return panel;
     }
 
     private void handleMenuSelection(String action) {

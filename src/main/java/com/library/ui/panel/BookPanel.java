@@ -13,6 +13,8 @@ public class BookPanel extends JPanel {
     private final BookService bookService;
     private JTable table;
     private DefaultTableModel tableModel;
+    private JTextField txtSearch;
+    private JComboBox<String> cbSearchType;
 
     private final Color BACKGROUND_COLOR = new Color(30, 39, 46);
     private final Color SECONDARY_COLOR = new Color(47, 53, 66);
@@ -29,11 +31,33 @@ public class BookPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Header
+        // Header section (Title + Search)
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(BACKGROUND_COLOR);
+
         JLabel titleLabel = new JLabel("QUẢN LÝ SÁCH");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(TEXT_COLOR);
-        add(titleLabel, BorderLayout.NORTH);
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        searchPanel.setBackground(BACKGROUND_COLOR);
+
+        cbSearchType = new JComboBox<>(new String[]{"Tên sách", "Mã ISBN"});
+        txtSearch = new JTextField(20);
+        txtSearch.setBackground(SECONDARY_COLOR);
+        txtSearch.setForeground(TEXT_COLOR);
+        txtSearch.setCaretColor(TEXT_COLOR);
+
+        StyledButton btnSearch = new StyledButton("Tìm kiếm", new Color(45, 52, 54), Color.WHITE);
+        btnSearch.addActionListener(e -> handleSearch());
+
+        searchPanel.add(cbSearchType);
+        searchPanel.add(txtSearch);
+        searchPanel.add(btnSearch);
+        headerPanel.add(searchPanel, BorderLayout.EAST);
+
+        add(headerPanel, BorderLayout.NORTH);
 
         // Bảng dữ liệu
         tableModel = new DefaultTableModel(new Object[]{
@@ -57,8 +81,20 @@ public class BookPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void refreshTable() {
-        List<Book> list = bookService.getAllBooks();
+    private void handleSearch() {
+        String query = txtSearch.getText().trim();
+        List<Book> result;
+        if (query.isEmpty()) {
+            result = bookService.getAllBooks();
+        } else if (cbSearchType.getSelectedIndex() == 0) {
+            result = bookService.searchByName(query);
+        } else {
+            result = bookService.searchByIsbn(query);
+        }
+        updateTableData(result);
+    }
+
+    private void updateTableData(List<Book> list) {
         tableModel.setRowCount(0);
         for (Book b : list) {
             tableModel.addRow(new Object[]{
@@ -66,5 +102,9 @@ public class BookPanel extends JPanel {
                     b.getTheLoai(), b.getNamXB(), b.getGiaSach(), b.getSoLuong()
             });
         }
+    }
+
+    public void refreshTable() {
+        updateTableData(bookService.getAllBooks());
     }
 }
