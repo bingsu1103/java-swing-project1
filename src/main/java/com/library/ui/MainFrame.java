@@ -1,6 +1,7 @@
 package com.library.ui;
 
 import com.library.ui.component.Sidebar;
+import com.library.ui.panel.BookPanel;
 import com.library.ui.panel.DashboardPanel;
 import com.library.ui.panel.ReaderPanel;
 
