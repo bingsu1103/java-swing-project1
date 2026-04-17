@@ -131,7 +131,8 @@ public class BookPanel extends JPanel {
     }
 
     private void handleAdd() {
-        BookForm form = new BookForm(null);
+        String autoIsbn = bookService.generateNextIsbn();
+        BookForm form = new BookForm(null, autoIsbn);
         com.library.ui.component.FormDialog dialog = new com.library.ui.component.FormDialog((Frame) SwingUtilities.getWindowAncestor(this), "Thêm Sách mới", form);
         dialog.setVisible(true);
 
@@ -152,7 +153,7 @@ public class BookPanel extends JPanel {
         Book book = bookService.getAllBooks().stream().filter(b -> b.getIsbn().equals(isbn)).findFirst().orElse(null);
         
         if (book != null) {
-            BookForm form = new BookForm(book);
+            BookForm form = new BookForm(book, isbn);
             com.library.ui.component.FormDialog dialog = new com.library.ui.component.FormDialog((Frame) SwingUtilities.getWindowAncestor(this), "Sửa thông tin Sách", form);
             dialog.setVisible(true);
             if (dialog.isConfirmed()) {
@@ -177,12 +178,18 @@ public class BookPanel extends JPanel {
         private final JTextField txtIsbn, txtTen, txtTacGia, txtNhaXB, txtNamXB, txtTheLoai, txtGia, txtSoLuong;
         private Book currentBook;
 
-        public BookForm(Book book) {
+        public BookForm(Book book, String isbn) {
             this.currentBook = book;
             setLayout(new GridLayout(0, 2, 10, 10));
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            add(new JLabel("Mã ISBN:")); txtIsbn = new JTextField(); add(txtIsbn);
+            add(new JLabel("Mã ISBN:")); 
+            txtIsbn = new JTextField(isbn); 
+            txtIsbn.setEditable(false); // Luôn luôn không cho sửa ISBN
+            txtIsbn.setBackground(new Color(47, 53, 66));
+            txtIsbn.setForeground(Color.LIGHT_GRAY);
+            add(txtIsbn);
+
             add(new JLabel("Tên sách:")); txtTen = new JTextField(); add(txtTen);
             add(new JLabel("Tác giả:")); txtTacGia = new JTextField(); add(txtTacGia);
             add(new JLabel("Nhà xuất bản:")); txtNhaXB = new JTextField(); add(txtNhaXB);
@@ -192,11 +199,6 @@ public class BookPanel extends JPanel {
             add(new JLabel("Số lượng quyển:")); txtSoLuong = new JTextField(); add(txtSoLuong);
 
             if (book != null) {
-                txtIsbn.setText(book.getIsbn());
-                txtIsbn.setEditable(false); // Không cho sửa ISBN
-                txtIsbn.setBackground(new Color(47, 53, 66));
-                txtIsbn.setForeground(Color.GRAY);
-                
                 txtTen.setText(book.getTenSach());
                 txtTacGia.setText(book.getTacGia());
                 txtNhaXB.setText(book.getNxb());

@@ -41,6 +41,10 @@ public class BookService {
         bookDAO.delete(isbn);
     }
 
+    public String generateNextIsbn() {
+        return "ISBN-" + System.currentTimeMillis() % 10000000;
+    }
+
     // Sửa lỗi: Gọi searchByIsbn để trả về danh sách List<Book>
     public List<Book> searchByIsbn(String isbn) {
         return bookDAO.searchByIsbn(isbn);
