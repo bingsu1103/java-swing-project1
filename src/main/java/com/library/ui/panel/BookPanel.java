@@ -199,7 +199,7 @@ public class BookPanel extends JPanel {
                 
                 txtTen.setText(book.getTenSach());
                 txtTacGia.setText(book.getTacGia());
-                txtNhaXB.setText(book.getNhaXB());
+                txtNhaXB.setText(book.getNxb());
                 txtNamXB.setText(String.valueOf(book.getNamXB()));
                 txtTheLoai.setText(book.getTheLoai());
                 txtGia.setText(String.valueOf(book.getGiaSach()));
@@ -212,7 +212,7 @@ public class BookPanel extends JPanel {
             b.setIsbn(txtIsbn.getText().trim());
             b.setTenSach(txtTen.getText().trim());
             b.setTacGia(txtTacGia.getText().trim());
-            b.setNhaXB(txtNhaXB.getText().trim());
+            b.setNxb(txtNhaXB.getText().trim());
             try {
                 b.setNamXB(Integer.parseInt(txtNamXB.getText().trim()));
                 b.setGiaSach(Double.parseDouble(txtGia.getText().trim()));
