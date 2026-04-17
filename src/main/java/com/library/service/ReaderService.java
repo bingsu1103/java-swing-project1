@@ -24,7 +24,7 @@ public class ReaderService {
         String error = validateReader(reader);
         if (error != null) return error;
 
-        // Nếu mã chưa có thì mới gen (phòng trường hợp đã gen ở FE)
+        
         if (reader.getMaDocGia() == null || reader.getMaDocGia().isEmpty()) {
             reader.setMaDocGia(readerDAO.generateId());
         }

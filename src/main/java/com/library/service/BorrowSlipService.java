@@ -28,7 +28,7 @@ public class BorrowSlipService {
     }
 
     public String createBorrowSlip(String maDocGia, List<String> isbns) {
-        // 1. Kiểm tra độc giả
+        
         Reader reader = readerDAO.readAll().stream()
                 .filter(r -> r.getMaDocGia().equals(maDocGia))
                 .findFirst()
@@ -38,7 +38,7 @@ public class BorrowSlipService {
             return "Không tìm thấy mã độc giả này!";
         }
 
-        // 2. Kiểm tra hạn thẻ độc giả
+        
         if (reader.getNgayHetHan().isBefore(LocalDate.now())) {
             return "Thẻ độc giả đã hết hạn, không thể mượn sách!";
         }
@@ -47,7 +47,7 @@ public class BorrowSlipService {
             return "Vui lòng chọn ít nhất một quyển sách để mượn!";
         }
 
-        // 3. Kiểm tra sách
+        
         List<Book> allBooks = bookDAO.readAll();
         for (String isbn : isbns) {
             Book book = allBooks.stream()
@@ -63,19 +63,19 @@ public class BorrowSlipService {
             }
         }
 
-        // 4. Tạo phiếu mượn
+        
         String maPhieu = Constants.PREFIX_BORROW_SLIP + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
         BorrowSlip slip = new BorrowSlip(maPhieu, maDocGia, LocalDate.now(), isbns);
         borrowSlipDAO.add(slip);
 
-        // 5. Cập nhật số lượng sách trong kho
+        
         for (String isbn : isbns) {
             Book book = allBooks.stream().filter(b -> b.getIsbn().equals(isbn)).findFirst().get();
             book.setSoLuong(book.getSoLuong() - 1);
             bookDAO.update(book);
         }
 
-        return null; // Thành công
+        return null; 
     }
 
     public String returnBooks(String maPhieu) {
@@ -87,14 +87,14 @@ public class BorrowSlipService {
         if (slip == null) return "Không tìm thấy mã phiếu mượn!";
         if (slip.getTrangThai() != BorrowSlip.TrangThai.DANG_MUON) return "Phiếu này đã được xử lý rồi!";
 
-        // 1. Cập nhật thông tin trả
+        
         slip.setNgayTraThucTe(LocalDate.now());
         slip.setTrangThai(BorrowSlip.TrangThai.DA_TRA);
         
         double tienPhat = slip.tinhTienPhatQuaHan();
         borrowSlipDAO.update(slip);
 
-        // 2. Hoàn trả sách vào kho
+        
         List<Book> allBooks = bookDAO.readAll();
         for (String isbn : slip.getDanhSachISBN()) {
             allBooks.stream()
@@ -121,7 +121,7 @@ public class BorrowSlipService {
         if (slip == null) return "Không tìm thấy mã phiếu mượn!";
         if (slip.getTrangThai() != BorrowSlip.TrangThai.DANG_MUON) return "Phiếu này đã được xử lý rồi!";
 
-        // 1. Tính tiền phạt mất sách (200% giá sách)
+        
         double tongTienPhat = 0;
         List<Book> allBooks = bookDAO.readAll();
         for (String isbn : slip.getDanhSachISBN()) {
@@ -131,7 +131,7 @@ public class BorrowSlipService {
             }
         }
 
-        // 2. Cập nhật trạng thái
+        
         slip.setTrangThai(BorrowSlip.TrangThai.MAT_SACH);
         slip.setNgayTraThucTe(LocalDate.now());
         borrowSlipDAO.update(slip);

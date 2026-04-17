@@ -94,7 +94,7 @@ public class LoginFrame extends JFrame {
         gbc.insets = new Insets(10, 0, 15, 0);
         mainPanel.add(btnLogin, gbc);
 
-        // Register Link
+        
         JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         footerPanel.setBackground(new Color(30, 39, 46));
         

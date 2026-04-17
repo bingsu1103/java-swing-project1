@@ -18,7 +18,7 @@ public class Sidebar extends JPanel {
         setPreferredSize(new Dimension(250, 0));
         setBackground(new Color(45, 52, 54));
 
-        // Header
+        
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(45, 52, 54));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
@@ -29,7 +29,7 @@ public class Sidebar extends JPanel {
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         add(headerPanel, BorderLayout.NORTH);
 
-        // Menu items
+        
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBackground(new Color(45, 52, 54));
@@ -43,7 +43,7 @@ public class Sidebar extends JPanel {
         
         add(menuPanel, BorderLayout.CENTER);
 
-        // Logout at bottom
+        
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setBackground(new Color(45, 52, 54));
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

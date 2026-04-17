@@ -24,14 +24,14 @@ public class StatPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-        // Header
+        
         JLabel titleLabel = new JLabel("BÁO CÁO THỐNG KÊ THƯ VIỆN");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titleLabel.setForeground(TEXT_COLOR);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Center Panel: Grid of Cards
+        
         cardsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
         cardsPanel.setBackground(BACKGROUND_COLOR);
 
@@ -39,7 +39,7 @@ public class StatPanel extends JPanel {
 
         add(cardsPanel, BorderLayout.CENTER);
 
-        // Footer: Refresh button
+        
         JButton btnRefresh = new JButton("Cập nhật số liệu");
         btnRefresh.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnRefresh.addActionListener(e -> refreshStats());
@@ -73,7 +73,7 @@ public class StatPanel extends JPanel {
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
                 
                 g2.setColor(accentColor);
-                g2.fillRect(0, 0, 10, getHeight()); // Left accent bar
+                g2.fillRect(0, 0, 10, getHeight()); 
                 g2.dispose();
             }
         };

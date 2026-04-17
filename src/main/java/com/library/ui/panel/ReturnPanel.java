@@ -32,7 +32,7 @@ public class ReturnPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Header
+        
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(BACKGROUND_COLOR);
 
@@ -57,7 +57,7 @@ public class ReturnPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Content: table
+        
         tableModel = new DefaultTableModel(new Object[]{
                 "Mã phiếu", "Mã ĐG", "Ngày mượn", "Hạn trả", "Số lượng sách", "Trạng thái"
         }, 0) {
@@ -75,7 +75,7 @@ public class ReturnPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(scrollPane, BorderLayout.CENTER);
 
-        // Footer: Actions
+        
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         actionPanel.setBackground(BACKGROUND_COLOR);
 

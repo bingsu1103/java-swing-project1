@@ -28,14 +28,14 @@ public class StatService {
         List<Book> allBooks = bookDAO.readAll();
         List<BorrowSlip> allSlips = borrowSlipDAO.readAll();
 
-        // 1. Thống kê Độc giả
+        
         stats.put("totalReaders", readerDAO.readAll().size());
 
-        // 2. Thống kê Sách
+        
         stats.put("totalBookTypes", allBooks.size());
         stats.put("totalBookCopies", allBooks.stream().mapToInt(Book::getSoLuong).sum());
 
-        // 3. Thống kê Phiếu mượn
+        
         long activeLoans = allSlips.stream()
                 .filter(s -> s.getTrangThai() == BorrowSlip.TrangThai.DANG_MUON)
                 .count();
@@ -50,7 +50,7 @@ public class StatService {
         stats.put("totalReturns", totalReturns);
         stats.put("lostBooks", lostBooks);
 
-        // 4. Thống kê Quá hạn
+        
         long overdueCount = allSlips.stream()
                 .filter(s -> s.getTrangThai() == BorrowSlip.TrangThai.DANG_MUON)
                 .filter(s -> s.getNgayTraDuKien().isBefore(LocalDate.now()))

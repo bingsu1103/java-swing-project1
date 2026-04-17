@@ -19,7 +19,7 @@ public class ReaderPanel extends JPanel {
     private JTextField txtSearch;
     private JComboBox<String> cbSearchType;
 
-    // Định nghĩa bảng màu Dark Theme
+    
     private final Color BACKGROUND_COLOR = new Color(30, 39, 46);
     private final Color SECONDARY_COLOR = new Color(47, 53, 66);
     private final Color TEXT_COLOR = Color.WHITE;
@@ -35,7 +35,7 @@ public class ReaderPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Header section (Title + Search)
+        
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(BACKGROUND_COLOR);
 
@@ -63,7 +63,7 @@ public class ReaderPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Bảng dữ liệu
+        
         tableModel = new DefaultTableModel(new Object[]{
                 "Mã ĐG", "Họ tên", "CMND", "Ngày sinh", "Giới tính", "Email", "Địa chỉ", "Hết hạn"
         }, 0) {
@@ -87,7 +87,7 @@ public class ReaderPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Action section
+        
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         actionPanel.setBackground(BACKGROUND_COLOR);
         actionPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

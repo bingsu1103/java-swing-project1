@@ -31,7 +31,7 @@ public class BookPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Header section (Title + Search)
+        
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(BACKGROUND_COLOR);
 
@@ -59,7 +59,7 @@ public class BookPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Bảng dữ liệu
+        
         tableModel = new DefaultTableModel(new Object[]{
                 "ISBN", "Tên sách", "Tác giả", "Thể loại", "Năm XB", "Giá", "Số lượng"
         }, 0) {
@@ -80,7 +80,7 @@ public class BookPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        // Action section
+        
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         actionPanel.setBackground(BACKGROUND_COLOR);
         actionPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -185,7 +185,7 @@ public class BookPanel extends JPanel {
 
             add(new JLabel("Mã ISBN:")); 
             txtIsbn = new JTextField(isbn); 
-            txtIsbn.setEditable(false); // Luôn luôn không cho sửa ISBN
+            txtIsbn.setEditable(false); 
             txtIsbn.setBackground(new Color(47, 53, 66));
             txtIsbn.setForeground(Color.LIGHT_GRAY);
             add(txtIsbn);
@@ -220,7 +220,7 @@ public class BookPanel extends JPanel {
                 b.setGiaSach(Double.parseDouble(txtGia.getText().trim()));
                 b.setSoLuong(Integer.parseInt(txtSoLuong.getText().trim()));
             } catch (NumberFormatException e) {
-                // Sẽ được validate ở Service
+                
             }
             b.setTheLoai(txtTheLoai.getText().trim());
             return b;

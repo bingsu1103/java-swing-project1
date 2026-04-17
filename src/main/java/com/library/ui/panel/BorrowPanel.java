@@ -37,17 +37,17 @@ public class BorrowPanel extends JPanel {
         setBackground(BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Header
+        
         JLabel titleLabel = new JLabel("LẬP PHIẾU MƯỢN SÁCH");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(TEXT_COLOR);
         add(titleLabel, BorderLayout.NORTH);
 
-        // Center: Input & List
+        
         JPanel centerPanel = new JPanel(new BorderLayout(0, 20));
         centerPanel.setBackground(BACKGROUND_COLOR);
 
-        // Input section
+        
         JPanel inputPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         inputPanel.setBackground(BACKGROUND_COLOR);
 
@@ -70,7 +70,7 @@ public class BorrowPanel extends JPanel {
 
         centerPanel.add(inputPanel, BorderLayout.NORTH);
 
-        // Table section
+        
         tableModel = new DefaultTableModel(new Object[]{"ISBN", "Tên sách", "Tác giả", "Thể loại"}, 0);
         table = new JTable(tableModel);
         table.setRowHeight(30);
@@ -84,7 +84,7 @@ public class BorrowPanel extends JPanel {
 
         add(centerPanel, BorderLayout.CENTER);
 
-        // Footer: Submit
+        
         JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         footerPanel.setBackground(BACKGROUND_COLOR);
 
