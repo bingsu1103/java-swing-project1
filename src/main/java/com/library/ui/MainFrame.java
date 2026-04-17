@@ -2,6 +2,7 @@ package com.library.ui;
 
 import com.library.ui.component.Sidebar;
 import com.library.ui.panel.BookPanel;
+import com.library.ui.panel.BorrowPanel;
 import com.library.ui.panel.DashboardPanel;
 import com.library.ui.panel.ReaderPanel;
 
@@ -24,19 +25,17 @@ public class MainFrame extends JFrame {
 
         setLayout(new BorderLayout());
 
-        // Sidebar
         Sidebar sidebar = new Sidebar(this::handleMenuSelection);
         add(sidebar, BorderLayout.WEST);
 
-        // Content Area (Dark Theme)
         cardLayout = new CardLayout();
         contentArea = new JPanel(cardLayout);
-        contentArea.setBackground(new Color(30, 39, 46)); // Màu tối
+        contentArea.setBackground(new Color(30, 39, 46));
 
         contentArea.add(new DashboardPanel(), "DASHBOARD");
         contentArea.add(new ReaderPanel(), "READER");
         contentArea.add(new BookPanel(), "BOOK");
-        contentArea.add(createPlaceholderPanel("Mượn sách"), "BORROW");
+        contentArea.add(new BorrowPanel(), "BORROW");
         contentArea.add(createPlaceholderPanel("Trả sách"), "RETURN");
         contentArea.add(createPlaceholderPanel("Thống kê"), "STAT");
 
@@ -55,9 +54,9 @@ public class MainFrame extends JFrame {
 
     private void handleMenuSelection(String action) {
         if ("LOGOUT".equals(action)) {
-            int choice = JOptionPane.showConfirmDialog(this, 
-                "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận", 
-                JOptionPane.YES_NO_OPTION);
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận",
+                    JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
                 new LoginFrame().setVisible(true);
                 this.dispose();
